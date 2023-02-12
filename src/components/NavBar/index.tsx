@@ -3,10 +3,13 @@
 import styles from '@/styles';
 import { navVariants } from '@/utils/motion';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export interface INavBar {}
 
 export const NavBar: React.FC<INavBar> = () => {
+  const router = useRouter();
+
   return (
     <motion.nav
       variants={navVariants}
@@ -16,8 +19,18 @@ export const NavBar: React.FC<INavBar> = () => {
     >
       <div className="absolute w-[50%] " />
       <div className={`${styles.innerWidth} flex gap-8 justify-center`}>
-        <NavBarItem path="/" text="Work" />
-        <NavBarItem path="/about" text="About" />
+        <NavBarItem
+          onClick={() => {
+            router.push('/');
+          }}
+          text="Work"
+        />
+        <NavBarItem
+          onClick={() => {
+            router.push('/about');
+          }}
+          text="About"
+        />
         <NavBarItem text="Contact" />
       </div>
     </motion.nav>
@@ -25,14 +38,14 @@ export const NavBar: React.FC<INavBar> = () => {
 };
 
 export interface INavBarItem {
-  path?: string;
+  onClick?: () => void;
   text: string;
 }
 
-const NavBarItem: React.FC<INavBarItem> = ({ path, text }) => {
+const NavBarItem: React.FC<INavBarItem> = ({ onClick, text }) => {
   return (
     <div>
-      <a href={path ? path : ''}>{text}</a>
+      <button onClick={onClick}>{text}</button>
     </div>
   );
 };
